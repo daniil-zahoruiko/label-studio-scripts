@@ -83,13 +83,15 @@ def pretty_print_leaderboard(annotators, token):
 
         leaderboard.append({'email': response.json()['email'], 'score': score})
 
-    leaderboard.sort(key=lambda x: x["score"], reverse=True)
+    leaderboard.sort(key=lambda x: x['score'], reverse=True)
 
     print(f"{'Rank':<5} {'Email':40} {'Score':>5}")
-    print("-" * 60)
+    print('-' * 60)
 
     for i, entry in enumerate(leaderboard, start=1):
         print(f"{i:<5} {entry['email']:40} {entry['score']:>5}")
+    print('-' * 60)
+    print(f"{'Total':<46} {sum(annotators.values()):>5}")
 
 def main():
     parser = argparse.ArgumentParser()
