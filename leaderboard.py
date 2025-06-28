@@ -85,12 +85,14 @@ def pretty_print_leaderboard(annotators, token):
 
     leaderboard.sort(key=lambda x: x['score'], reverse=True)
 
+    separator = '-' * 60
+
     print(f"{'Rank':<5} {'Email':40} {'Score':>5}")
-    print('-' * 60)
+    print(separator)
 
     for i, entry in enumerate(leaderboard, start=1):
         print(f"{i:<5} {entry['email']:40} {entry['score']:>5}")
-    print('-' * 60)
+    print(separator)
     print(f"{'Total':<46} {sum(annotators.values()):>5}")
 
 def main():
