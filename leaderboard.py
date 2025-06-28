@@ -4,7 +4,7 @@ import argparse
 
 def load_api_key():
     with open('secrets.txt') as f:
-        return json.load(f)[0]['API_KEY']
+        return json.load(f)['API_KEY']
 
 def refresh_token(api_key):
     response = requests.post(
