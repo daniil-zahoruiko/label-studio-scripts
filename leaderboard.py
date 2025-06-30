@@ -51,25 +51,6 @@ def get_annotators(project_info, token):
 
     return annotators
 
-def get_username_annotations(task_ids, token):
-    result = {}
-    for id in task_ids:
-        response = requests.get(
-            f'https://cvat.mami2.moe/api/tasks/{id}/annotations/',
-            headers={
-                'Authorization': f'Bearer {token}'
-            },
-            params={
-                'fields': 'all'
-            }
-        )
-
-        for annotation in response.json():
-            username = annotation['created_username']
-            result[username] = result.get(username, 0) + 1
-
-    return result
-
 def pretty_print_leaderboard(annotators, token):
     leaderboard = []
 
