@@ -1,3 +1,10 @@
+'''
+Usage:
+python3 leaderboard.py --projects <project names>
+Example:
+python3 leaderboard.py --projects arvp-test arvp-test2
+'''
+
 import json
 import requests
 import argparse
