@@ -8,3 +8,5 @@ Usage:
 #
 * `leaderboard.py` - Generates project(s) leaderboard to motivate users to perform better
 * `create_tabs.py` - Splits all images into different tabs so that multiple users can organize simultaneous labeling better  
+
+For usage and arguments of each script, see the top comment in the python file.  
