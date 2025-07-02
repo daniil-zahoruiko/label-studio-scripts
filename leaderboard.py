@@ -86,7 +86,7 @@ def pretty_print_leaderboard(url, annotators, token):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--projects', nargs='+', type=str)
-    parser.add_argument('--url', nargs='1', type=str)
+    parser.add_argument('--url', nargs=1, type=str)
 
     parsed_args = parser.parse_args()
     project_names = parsed_args.projects
