@@ -72,14 +72,17 @@ def create_tabs(url, project_id, token, n_tasks, n_images):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--project', nargs=1, type=str)
-    parser.add_argument('--url', nargs=1, type=str)
-    parser.add_argument('--images', nargs=1, type=int)
+    parser.add_argument('--project', nargs=1, type=str, required=True)
+    parser.add_argument('--url', nargs=1, type=str, required=True)
+    parser.add_argument('--images', nargs=1, type=int, required=True)
 
     parsed = parser.parse_args()
     project = parsed.project[0]
     images = parsed.images[0]
     url = parsed.url[0]
+
+    if url[-1] != '/':
+        url += '/'
 
     api_key = load_api_key()
     token = refresh_token(url, api_key)  

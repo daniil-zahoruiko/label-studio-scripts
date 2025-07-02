@@ -85,12 +85,15 @@ def pretty_print_leaderboard(url, annotators, token):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--projects', nargs='+', type=str)
-    parser.add_argument('--url', nargs=1, type=str)
+    parser.add_argument('--projects', nargs='+', type=str, required=True)
+    parser.add_argument('--url', nargs=1, type=str, required=True)
 
     parsed_args = parser.parse_args()
     project_names = parsed_args.projects
     url = parsed_args.url[0]
+    
+    if url[-1] != '/':
+        url += '/'
 
     api_key = load_api_key()
     token = refresh_token(url, api_key)
