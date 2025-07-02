@@ -1,8 +1,8 @@
 '''
 Usage:
-python3 leaderboard.py --projects <project names>
+python3 leaderboard.py --projects <project names> --url <your instance url>
 Example:
-python3 leaderboard.py --projects arvp-test arvp-test2
+python3 leaderboard.py --projects arvp-test arvp-test2 --url https://labelstudio.example.test/
 '''
 
 import json
@@ -13,9 +13,9 @@ def load_api_key():
     with open('secrets.txt') as f:
         return json.load(f)['API_KEY']
 
-def refresh_token(api_key):
+def refresh_token(url, api_key):
     response = requests.post(
-        'https://cvat.mami2.moe/api/token/refresh/',
+        f'{url}api/token/refresh/',
     headers={
         'Content-Type': 'application/json'
     },
@@ -25,9 +25,9 @@ def refresh_token(api_key):
 
     return response.json()['access']
 
-def get_project_info(project_names, token):
+def get_project_info(url, project_names, token):
     response = requests.get(
-        'https://cvat.mami2.moe/api/projects/',
+        f'{url}api/projects/',
     headers={
         'Authorization': f'Bearer {token}'
     })
@@ -36,11 +36,11 @@ def get_project_info(project_names, token):
     return res
 
 
-def get_annotators(project_info, token):
+def get_annotators(url, project_info, token):
     annotators = {}
     for info in project_info:
         response = requests.get(
-            'https://cvat.mami2.moe/api/tasks/',
+            f'{url}api/tasks/',
             headers={
                 'Authorization': f'Bearer {token}'
             },
@@ -58,12 +58,12 @@ def get_annotators(project_info, token):
 
     return annotators
 
-def pretty_print_leaderboard(annotators, token):
+def pretty_print_leaderboard(url, annotators, token):
     leaderboard = []
 
     for uid, score in annotators.items():
         response = requests.get(
-            f'https://cvat.mami2.moe/api/users/{uid}/',
+            f'{url}api/users/{uid}/',
             headers={
                 'Authorization': f'Bearer {token}'
             }
@@ -86,13 +86,17 @@ def pretty_print_leaderboard(annotators, token):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--projects', nargs='+', type=str)
-    project_names = parser.parse_args().projects
+    parser.add_argument('--url', nargs='1', type=str)
+
+    parsed_args = parser.parse_args()
+    project_names = parsed_args.projects
+    url = parsed_args.url[0]
 
     api_key = load_api_key()
-    token = refresh_token(api_key)
-    project_info = get_project_info(project_names, token)
-    annotators = get_annotators(project_info, token)
-    pretty_print_leaderboard(annotators, token)
+    token = refresh_token(url, api_key)
+    project_info = get_project_info(url, project_names, token)
+    annotators = get_annotators(url, project_info, token)
+    pretty_print_leaderboard(url, annotators, token)
 
 if __name__ == '__main__':
     main()
