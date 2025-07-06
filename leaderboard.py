@@ -5,25 +5,9 @@ Example:
 python3 leaderboard.py --projects arvp-test arvp-test2 --url https://labelstudio.example.test/
 '''
 
-import json
 import requests
 import argparse
-
-def load_api_key():
-    with open('secrets.txt') as f:
-        return json.load(f)['API_KEY']
-
-def refresh_token(url, api_key):
-    response = requests.post(
-        f'{url}api/token/refresh/',
-    headers={
-        'Content-Type': 'application/json'
-    },
-    json={
-        'refresh': f'{api_key}'
-    })
-
-    return response.json()['access']
+from common import load_api_key, refresh_token
 
 def get_project_info(url, project_names, token):
     response = requests.get(
@@ -91,7 +75,7 @@ def main():
     parsed_args = parser.parse_args()
     project_names = parsed_args.projects
     url = parsed_args.url[0]
-    
+
     if url[-1] != '/':
         url += '/'
 

@@ -5,25 +5,9 @@ Example:
 python3 create_tabs.py --project arvp-test --images 100 --url https://labelstudio.example.test/
 '''
 
-import json
 import requests
 import argparse
-
-def load_api_key():
-    with open('secrets.txt') as f:
-        return json.load(f)['API_KEY']
-
-def refresh_token(url, api_key):
-    response = requests.post(
-        f'{url}api/token/refresh/',
-    headers={
-        'Content-Type': 'application/json'
-    },
-    json={
-        'refresh': f'{api_key}'
-    })
-
-    return response.json()['access']
+from common import load_api_key, refresh_token
 
 def get_project_info(url, project, token):
     response = requests.get(
