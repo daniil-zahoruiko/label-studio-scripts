@@ -16,9 +16,7 @@ def get_project_info(url, project_names, token):
         'Authorization': f'Bearer {token}'
     })
 
-    res = [(r['id'], r['task_number']) for r in response.json()['results'] if r['title'] in project_names]
-    return res
-
+    return [(r['id'], r['task_number']) for r in response.json()['results'] if r['title'] in project_names]
 
 def get_annotators(url, project_info, token):
     annotators = {}

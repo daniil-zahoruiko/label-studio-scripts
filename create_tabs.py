@@ -16,8 +16,7 @@ def get_project_info(url, project, token):
         'Authorization': f'Bearer {token}'
     })
 
-    res = [(r['id'], r['task_number']) for r in response.json()['results'] if r['title'] == project]
-    return res[0]
+    return [(r['id'], r['task_number']) for r in response.json()['results'] if r['title'] == project][0]
 
 def create_tabs(url, project_id, token, n_tasks, n_images):
     for i in range(0, n_tasks, n_images):
